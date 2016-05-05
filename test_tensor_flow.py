@@ -22,3 +22,4 @@ init = tf.initialize_all_variables()
 
 sess = tf.Session()
 sess.run(init)
+help(tf)
