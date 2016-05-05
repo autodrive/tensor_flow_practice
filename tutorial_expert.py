@@ -37,3 +37,7 @@ for i in range(1000):
 # evaluation
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 print("correct_prediction =" + str(correct_prediction))
+
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+
+print(accuracy.eval(feed_dict={x: mnist.test.images, y_: mnist.test.labels}))
