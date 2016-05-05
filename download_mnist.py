@@ -532,3 +532,7 @@ softmax(logits, name=None)
 y_ = tf.placeholder(tf.float32, [None, mnist.train.labels.shape[1]])
 
 cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
+
+# training setup
+# learning rate = 0.5
+train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
