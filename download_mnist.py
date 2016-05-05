@@ -1,4 +1,4 @@
-# from tensorflow.examples.tutorials.mnist import input_data
+# https://www.tensorflow.org/versions/r0.8/tutorials/mnist/beginners/index.html
 from tensorflow.examples.tutorials.mnist import input_data
 
 
