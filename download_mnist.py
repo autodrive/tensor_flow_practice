@@ -21,6 +21,7 @@ def load_data():
 
 mnist = load_data()
 
+# present information
 print('dir(mnist) = ' + str(dir(mnist)))
 print('dir(mnist.train) = ' + str(dir(mnist.train)))
 print('mnist.train = ' + str(mnist.train))
@@ -30,3 +31,15 @@ print('mnist.train.labels = ' + str(mnist.train.labels))
 print('mnist.train.labels.shape = ' + str(mnist.train.labels.shape))
 print('mnist.test = ' + str(mnist.test))
 print('mnist.validation = ' + str(mnist.validation))
+
+# trying softmax regression
+import tensorflow as tf
+
+x = tf.placeholder(tf.float32, [None, 784])
+
+W = tf.Variable(tf.zeros([mnist.train.images.shape[1], mnist.train.labels.shape[1]]))
+b = tf.Variable(tf.zeros([mnist.train.labels.shape[1]]))
+
+y = tf.nn.softmax(tf.matmul(x, W) + b)
+
+print('y = ' + str(y))
