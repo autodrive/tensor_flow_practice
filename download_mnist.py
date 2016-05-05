@@ -42,8 +42,8 @@ W = tf.Variable(tf.zeros([mnist.train.images.shape[1], mnist.train.labels.shape[
 
 # bias
 b = tf.Variable(tf.zeros([mnist.train.labels.shape[1]]))
-print('help(tf.Variable) =')
-help(tf.Variable)
+# print('help(tf.Variable) =')
+# help(tf.Variable)
 '''
 help(tf.Variable) =
 Help on class Variable in module tensorflow.python.ops.variables:
@@ -505,8 +505,8 @@ class Variable(__builtin__.object)
 y = tf.nn.softmax(tf.matmul(x, W) + b)
 
 print('y = ' + str(y))
-print('help(tf.nn.softmax) =')
-help(tf.nn.softmax)
+# print('help(tf.nn.softmax) =')
+# help(tf.nn.softmax)
 '''
 help(tf.nn.softmax) =
 Help on function softmax in module tensorflow.python.ops.gen_nn_ops:
@@ -536,3 +536,14 @@ cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=
 # training setup
 # learning rate = 0.5
 train_step = tf.train.GradientDescentOptimizer(0.5).minimize(cross_entropy)
+
+# initialize the variables we created
+init = tf.initialize_all_tables()
+
+# launch the model in a Session
+sess = tf.Session()
+sess.run(init)
+
+for i in range(1000):
+    batch_xs, batch_ys = mnist.train.next_batch(100)
+    sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
