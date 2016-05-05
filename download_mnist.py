@@ -3,7 +3,6 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 
 def load_data():
-    global mnist
     success = False
     while not success:
 
