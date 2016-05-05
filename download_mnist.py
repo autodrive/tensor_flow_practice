@@ -37,9 +37,14 @@ import tensorflow as tf
 
 x = tf.placeholder(tf.float32, [None, 784])
 
+# Weight
 W = tf.Variable(tf.zeros([mnist.train.images.shape[1], mnist.train.labels.shape[1]]))
+
+# bias
 b = tf.Variable(tf.zeros([mnist.train.labels.shape[1]]))
 
+# model
+# y = W x + b
 y = tf.nn.softmax(tf.matmul(x, W) + b)
 
 print('y = ' + str(y))
