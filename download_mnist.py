@@ -526,3 +526,9 @@ softmax(logits, name=None)
     Returns:
       A `Tensor`. Has the same type as `logits`. Same shape as `logits`.
 '''
+
+# To implement cross-entropy
+# placeholder to input the correct answers
+y_ = tf.placeholder(tf.float32, [None, mnist.train.labels.shape[1]])
+
+cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y), reduction_indices=[1]))
