@@ -14,3 +14,9 @@ while not success:
     else:
         # if there was no error
         success = True
+
+print('mnist.train = ' + str(mnist.train))
+print('mnist.train.images = ' + str(mnist.train.images))
+print('mnist.train.labels = ' + str(mnist.train.labels))
+print('mnist.test = ' + str(mnist.test))
+print('mnist.validation = ' + str(mnist.validation))
