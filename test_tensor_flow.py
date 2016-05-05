@@ -1,6 +1,5 @@
-import tensorflow as tf
 import numpy as np
-import matplotlib as plt
+import tensorflow as tf
 
 num_points = 1000
 vectors_set = []
@@ -12,7 +11,7 @@ for i in xrange(num_points):
 x_data = [v[0] for v in vectors_set]
 y_data = [v[1] for v in vectors_set]
 
-W = tf.Variable(tf.random.uniform([1], -1.0, 1.0))
+W = tf.Variable(tf.random_uniform([1], -1.0, 1.0))
 b = tf.Variable(tf.zeros([1]))
 y = W * x_data + b
 loss = tf.reduce_mean(tf.square(y - y_data))
