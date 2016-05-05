@@ -35,7 +35,7 @@ print('mnist.validation = ' + str(mnist.validation))
 # trying softmax regression
 import tensorflow as tf
 
-x = tf.placeholder(tf.float32, [None, 784])
+x = tf.placeholder(tf.float32, [None, mnist.train.images.shape[1]])
 
 # Weight
 W = tf.Variable(tf.zeros([mnist.train.images.shape[1], mnist.train.labels.shape[1]]))
