@@ -1,24 +1,19 @@
 # https://www.tensorflow.org/versions/r0.8/tutorials/mnist/beginners/index.html
 from tensorflow.examples.tutorials.mnist import input_data
 
+success = False
+while not success:
 
-def load_data():
-    success = False
-    while not success:
+    try:
+        print("trying download")
+        mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
+        print("finished assignment")
+    except IOError:
+        success = False
+    else:
+        # if there was no error
+        success = True
 
-        try:
-            print("trying download")
-            mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
-            print("finished assignment")
-        except IOError:
-            success = False
-        else:
-            # if there was no error
-            success = True
-    return mnist
-
-
-mnist = load_data()
 
 # present information
 print('dir(mnist) = ' + str(dir(mnist)))
