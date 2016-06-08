@@ -34,8 +34,10 @@ class TestFizzBuzz(unittest.TestCase):
         function_under_test_name = 'fizz_buzz_encode'
         arguments = [15]
 
-        print('''>>> %s(%d)
-%r''' % (function_under_test_name, arguments[0], result_15))
+        docstring = '''>>> %s(%d)
+        %r''' % (function_under_test_name, arguments[0], result_15)
+
+        print(docstring)
 if __name__ == '__main__':
     # help(unittest.TestCase)
     unittest.main()
