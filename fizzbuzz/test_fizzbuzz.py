@@ -39,8 +39,14 @@ class TestFizzBuzz(unittest.TestCase):
 
 
 def generate_docstring(function_under_test_name, arguments, result):
+    # if the arguments is just a single digit, make it a list
     if len not in dir(arguments):
         arguments = [arguments]
+    # if the arguments is just a single string, make it a list
+    elif isinstance(arguments, str):
+        arguments = [arguments]
+
+
     docstring = '''>>> %s(%s)\n%r''' % (
         function_under_test_name, str(arguments)[1:-1], result)
     return docstring
