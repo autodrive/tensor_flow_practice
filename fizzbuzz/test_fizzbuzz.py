@@ -7,7 +7,7 @@ class TestFizzBuzz(unittest.TestCase):
     def test_binary_encode(self):
         n_table = [0, 1, 2, 2, 3, ]
         for i in range(0, 5):
-
+            # n starts from a positive integer to avoid result_to_int conversion
             for n in range(i + 2, i + 4):
                 result = fb.binary_encode(i, n)
                 # make following line True to generate docstring
@@ -17,25 +17,23 @@ class TestFizzBuzz(unittest.TestCase):
                     print(doctest)
                 self.assertEqual(len(result), n)
 
+                # try to reconstruct i from result
+                # multiply (power of 2 at each position) and member of result at the position
                 result_to_int = sum([(2 ** p) * d for p, d in enumerate(result)])
 
-                if result_to_int != i:
-                    print ()
-
-                try:
-                    self.assertEqual(result_to_int, i)
-                except TypeError as e:
-                    print e
-                    raise e
+                self.assertEqual(result_to_int, i)
 
     def test_fizz_buzz_encode(self):
-        result_15 = fb.fizz_buzz_encode(15)
+        for i, expected_list in ((0, [0, 0, 0, 1]),
+                                 (3, [0, 1, 0, 0]),
+                                 (5, [0, 0, 1, 0]),
+                                 (15, [0, 0, 0, 1])):
+            result_15 = fb.fizz_buzz_encode(i)
+            self.assertSequenceEqual(result_15.tolist(), expected_list)
 
-        function_under_test_name = 'fizz_buzz_encode'
-        arguments = 15
-
-        docstring = generate_docstring(function_under_test_name, arguments, result_15)
-        print(docstring)
+            if False:
+                docstring = generate_docstring('fizz_buzz_encode', i, result_15)
+                print(docstring)
 
 
 def generate_docstring(function_under_test_name, arguments, result):
