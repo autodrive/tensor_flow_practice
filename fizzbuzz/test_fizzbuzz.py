@@ -30,8 +30,12 @@ class TestFizzBuzz(unittest.TestCase):
 
     def test_fizz_buzz_encode(self):
         result_15 = fb.fizz_buzz_encode(15)
-        print('''>>> fizz_buzz_encode(%d)
-%r''' % (15, result_15))
+
+        function_under_test_name = 'fizz_buzz_encode'
+        arguments = [15]
+
+        print('''>>> %s(%d)
+%r''' % (function_under_test_name, arguments[0], result_15))
 if __name__ == '__main__':
     # help(unittest.TestCase)
     unittest.main()
