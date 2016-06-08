@@ -12,9 +12,9 @@ class TestFizzBuzz(unittest.TestCase):
                 result = fb.binary_encode(i, n)
                 # make following line True to generate docstring
                 if False:
-                    # write a doc string
-                    print('''>>> binary_encode(%d, %d)
-%s''' % (i, n, result))
+                    doctest = generate_docstring('binary_encode', (i, n), result)
+                    # write a doctest string
+                    print(doctest)
                 self.assertEqual(len(result), n)
 
                 result_to_int = sum([(2 ** p) * d for p, d in enumerate(result)])
@@ -32,12 +32,20 @@ class TestFizzBuzz(unittest.TestCase):
         result_15 = fb.fizz_buzz_encode(15)
 
         function_under_test_name = 'fizz_buzz_encode'
-        arguments = [15]
+        arguments = 15
 
-        docstring = '''>>> %s(%d)
-        %r''' % (function_under_test_name, arguments[0], result_15)
-
+        docstring = generate_docstring(function_under_test_name, arguments, result_15)
         print(docstring)
+
+
+def generate_docstring(function_under_test_name, arguments, result):
+    if len not in dir(arguments):
+        arguments = [arguments]
+    docstring = '''>>> %s(%s)\n%r''' % (
+        function_under_test_name, str(arguments)[1:-1], result)
+    return docstring
+
+
 if __name__ == '__main__':
     # help(unittest.TestCase)
     unittest.main()
