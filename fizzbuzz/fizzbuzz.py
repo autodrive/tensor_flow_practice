@@ -51,6 +51,21 @@ def binary_encode(i, num_digits):
 
 
 def fizz_buzz_encode(i):
+    """
+
+    Args:
+        i:
+
+    Returns:
+    >>> fizz_buzz_encode(0)
+    array([0, 0, 0, 1])
+    .>>> fizz_buzz_encode(3)
+    array([0, 1, 0, 0])
+    >>> fizz_buzz_encode(5)
+    array([0, 0, 1, 0])
+    >>> fizz_buzz_encode(15)
+    array([0, 0, 0, 1])
+    """
     if i % 15 == 0:
         return np.array([0, 0, 0, 1])
     elif i % 5 == 0:
