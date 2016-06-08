@@ -117,6 +117,27 @@ def main():
     # the prediction will just be the largest output
     predict_op = tf.argmax(py_x, 1)
 
+    # each epoch train in batches of 128 inputs
+    BATCH_SIZE = 128
+
+    with tf.Session() as sess:
+        tf.initialize_all_variables().run()
+        # train 10000 epoch's to be on the safe side
+        for epoch in range(10000):
+            p = np.random.permutation(range(len(trX)))
+            trX, trY = trX[p], trY[p]
+
+            # each training pass
+            for start in range(0, len(trX), BATCH_SIZE):
+                end = start + BATCH_SIZE
+                sess.run(train_op, feed_dict={X: trX[start:end], Y: trY[start:end]})
+
+            # print the accuracy on the training data
+            print(epoch, np.mean(np.argmax(trY, axis=1) ==
+                                 sess.run(predict_op, feed_dict={X: trX, Y: trY})))
+            # end training loop
+
+
 
 if __name__ == '__main__':
     main()
