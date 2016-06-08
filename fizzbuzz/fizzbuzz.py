@@ -74,3 +74,49 @@ def fizz_buzz_encode(i):
         return np.array([0, 1, 0, 0])
     else:
         return np.array([1, 0, 0, 0])
+
+
+def init_weights(shape):
+    return tf.Variable(tf.random_normal(shape, stddev=0.01))
+
+
+def model(X, w_h, w_o):
+    # one hidden layer
+    h = tf.nn.relu(tf.matmul(X, w_h))
+    return tf.matmul(h, w_o)
+
+
+def fizz_buzz(i, prediction):
+    return [str(i), "fizz", "buzz", "fizzbuzz"][prediction]
+
+
+def main():
+    # generate some training data
+    NUM_DIGITS = 10
+    trX = np.array([binary_encode(i, NUM_DIGITS) for i in range(101, 2 ** NUM_DIGITS)])
+    trY = np.array([fizz_buzz_encode(i) for i in range(101, 2 ** NUM_DIGITS)])
+
+    # number of hidden layers. may change later
+    NUM_HIDDEN = 100
+
+    # input variables
+    X = tf.placeholder("float", [None, NUM_DIGITS])
+    Y = tf.placeholder("float", [None, 4])
+
+    w_h = init_weights([NUM_DIGITS, NUM_HIDDEN])
+    w_o = init_weights([NUM_HIDDEN, 4])
+
+    py_x = model(X, w_h, w_o)
+
+    # cross entropy as cost function
+    cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(py_x, Y))
+
+    # training objective is to minimize it
+    train_op = tf.train.GradientDescentOptimizer(0.05).minimize(cost)
+
+    # the prediction will just be the largest output
+    predict_op = tf.argmax(py_x, 1)
+
+
+if __name__ == '__main__':
+    main()
