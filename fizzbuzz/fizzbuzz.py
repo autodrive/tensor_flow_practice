@@ -137,7 +137,16 @@ def main():
                                  sess.run(predict_op, feed_dict={X: trX, Y: trY})))
             # end training loop
 
+        # binary encoding of the numbers 1 ~ 100
+        numbers = np.arange(1, 101)
+        teX = np.transpose(binary_encode(numbers, NUM_DIGITS))
 
+        # model output
+        teY = sess.run(predict_op, feed_dict={X: teX})
+        # apply function
+        output = np.vectorize(fizz_buzz)(numbers, teY)
+
+        print(output)
 
 if __name__ == '__main__':
     main()
