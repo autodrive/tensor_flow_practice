@@ -46,7 +46,11 @@ def generate_docstring(function_under_test_name, arguments, result):
     elif isinstance(arguments, str):
         arguments = [arguments]
 
-
+    # docstring is in the form of
+    # >>> math.sin(0)
+    # 0.0
+    # 'arguments' is assumed to be a list. making it a string will fit into () for function call
+    # but with '[' and ']'
     docstring = '''>>> %s(%s)\n%r''' % (
         function_under_test_name, str(arguments)[1:-1], result)
     return docstring
