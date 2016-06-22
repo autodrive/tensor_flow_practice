@@ -33,3 +33,8 @@ for step in range(2001):
     # intermediate report
     if 0 == step % 20:
         print step, sess.run(cost, feed_dict={X: x_data, Y: y_data}), sess.run(W), sess.run(b)
+# end of training
+
+# running
+print sess.run(hypothesis, feed_dict={X: 5})
+print sess.run(hypothesis, feed_dict={X: 2.55})
