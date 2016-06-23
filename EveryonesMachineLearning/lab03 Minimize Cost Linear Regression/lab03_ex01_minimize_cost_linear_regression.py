@@ -1,40 +1,37 @@
-# https://www.youtube.com/watch?v=4HrSxpi3IAM&index=3&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm
+# https://www.youtube.com/watch?v=pHPmzTQ_e2o&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm&index=6#t=59.448354
 import tensorflow as tf
+import matplotlib.pyplot as plt
 
 # training data
-x_data = [1., 2., 3.]
-y_data = [1., 2., 3.]
+X = [1., 2., 3.]
+Y = [1., 2., 3.]
+m = n_samples = len(X)
 
-# Variables : so that W, b can be updated
-# initialize with a random number
-# actual initialization happens @ tf.initialize_all_variables()
-W = tf.Variable(tf.random_uniform([1], -1.0, 1.0))
-b = tf.Variable(tf.random_uniform([1], -1.0, 1.0))
+W = tf.placeholder(tf.float32)
 
-X = tf.placeholder(tf.float32)
-Y = tf.placeholder(tf.float32)
+# Construct a linear model
+hypothesis = tf.mul(X, W)
 
-hypothesis = W * X + b  # H(x) = Wx + b
+# Cost function
+cost = tf.reduce_mean(tf.pow(hypothesis - Y, 2)) / (m)  # cost(W, b)
 
-cost = tf.reduce_mean(tf.square(hypothesis - Y))  # cost(W, b)
-
-# magic? black box?
-a = tf.Variable(0.1)
-optimizer = tf.train.GradientDescentOptimizer(a)
-train = optimizer.minimize(cost)
-
+# Initializing the variables
 init = tf.initialize_all_variables()
 
+# For graphs
+W_val = []
+cost_val = []
+
+# Launch the graph
 sess = tf.Session()
 sess.run(init)
+for i in range(-30, 50):
+    print i * 0.1, sess.run(cost, feed_dict={W: i * 0.1})
+    W_val.append(i * 0.1)
+    cost_val.append(sess.run(cost, feed_dict={W: i * 0.1}))
 
-for step in range(2001):
-    sess.run(train, feed_dict={X: x_data, Y: y_data})
-    # intermediate report
-    if 0 == step % 20:
-        print step, sess.run(cost, feed_dict={X: x_data, Y: y_data}), sess.run(W), sess.run(b)
-# end of training
-
-# running
-print sess.run(hypothesis, feed_dict={X: 5})
-print sess.run(hypothesis, feed_dict={X: 2.55})
+# Graphic display
+plt.plot(W_val, cost_val, 'ro')
+plt.ylabel('Cost')
+plt.xlabel('W')
+plt.show()
