@@ -1,18 +1,19 @@
-# https://www.youtube.com/watch?v=iEaVR1N8EEk&index=9&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm#t=386s
+# https://www.youtube.com/watch?v=iEaVR1N8EEk&index=9&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm#t=610s
 import tensorflow as tf
 
 # training data
-x_data = [[0., 2., 0., 4., 0.],
+x_data = [[1.0] * 5,
+          [0., 2., 0., 4., 0.],
           [1., 0., 3., 0., 5.]]
-y_data = [1, 2, 3, 4, 5]
+y_data = range(1, 5 + 1)
 
 # Variables : so that W, b can be updated
 # initialize with a random number
 # actual initialization happens @ tf.initialize_all_variables()
-W = tf.Variable(tf.random_uniform([1, 2], -1.0, 1.0))
+W = tf.Variable(tf.random_uniform([1, 3], -1.0, 1.0))
 b = tf.Variable(tf.random_uniform([1], -1.0, 1.0))
 
-hypothesis = tf.matmul(W, x_data) + b  # H(x) = Wx + b
+hypothesis = tf.matmul(W, x_data)  # H(x) = Wx + b
 
 cost = tf.reduce_mean(tf.square(hypothesis - y_data))  # cost(W, b)
 
