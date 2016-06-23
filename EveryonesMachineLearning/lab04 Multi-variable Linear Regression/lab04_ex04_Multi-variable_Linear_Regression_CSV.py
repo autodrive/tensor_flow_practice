@@ -1,11 +1,11 @@
-# https://www.youtube.com/watch?v=iEaVR1N8EEk&index=9&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm#t=610s
+# https://www.youtube.com/watch?v=iEaVR1N8EEk&index=9&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm#t=780s
 import tensorflow as tf
+import numpy as np
 
 # training data
-x_data = [[1.0] * 5,
-          [0., 2., 0., 4., 0.],
-          [1., 0., 3., 0., 5.]]
-y_data = range(1, 5 + 1)
+xy = np.loadtxt('train.txt', unpack=True, dtype='float32')
+x_data = xy[0:-1]
+y_data = xy[-1]
 
 # Variables : so that W, b can be updated
 # initialize with a random number
