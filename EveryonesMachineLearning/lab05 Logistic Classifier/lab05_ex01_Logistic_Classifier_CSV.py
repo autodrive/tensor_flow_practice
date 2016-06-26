@@ -1,4 +1,4 @@
-# https://www.youtube.com/watch?v=iEaVR1N8EEk&index=9&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm#t=780s
+# https://www.youtube.com/watch?v=t7Y9luCNzzE&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm&index=12#t=138s
 import tensorflow as tf
 import numpy as np
 
@@ -7,15 +7,19 @@ xy = np.loadtxt('train.txt', unpack=True, dtype='float32')
 x_data = xy[0:-1]
 y_data = xy[-1]
 
-# Variables : so that W, b can be updated
-# initialize with a random number
-# actual initialization happens @ tf.initialize_all_variables()
-W = tf.Variable(tf.random_uniform([1, 3], -1.0, 1.0))
-b = tf.Variable(tf.random_uniform([1], -1.0, 1.0))
+# variables
+X = tf.placeholder(tf.float32)
+Y = tf.placeholder(tf.float32)
 
-hypothesis = tf.matmul(W, x_data)  # H(x) = Wx + b
+# [1, len(x_data)] because we may not know the number of matrices
+W = tf.Variable(tf.random_uniform([1, len(x_data)], -1.0, 1.0))
 
-cost = tf.reduce_mean(tf.square(hypothesis - y_data))  # cost(W, b)
+# hypothesis
+h = tf.matmul(W, X)
+hypothesis = tf.div(1.0, 1.0 + tf.exp(-h))  # H(x) = Wx + b
+# cost function
+# because Y value will be either zero or one
+cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) * tf.log(1 - hypothesis))
 
 # Minimize
 a = tf.Variable(0.1)  # learning rate alpha
@@ -28,7 +32,7 @@ sess = tf.Session()
 sess.run(init)
 
 for step in range(2001):
-    sess.run(train)
+    sess.run(train, feed_dict={X: x_data, Y: y_data})
     # intermediate report
     if 0 == step % 20:
-        print step, sess.run(cost), sess.run(W), sess.run(b)
+        print step, sess.run(cost, feed_dict={X: x_data, Y: y_data}), sess.run(W)
