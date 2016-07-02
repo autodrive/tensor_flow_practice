@@ -37,3 +37,22 @@ with tf.Session() as sess:
         sess.run(optimizer, feed_dict={X: x_data, Y: y_data})
         if 0 == step % 200:
             print step, sess.run(cost, feed_dict={X: x_data, Y: y_data}), sess.run(W)
+
+    # Test & one-hot encoding
+    # https://www.youtube.com/watch?v=FiPpqSqR_1c#t=7m16s
+    a = sess.run(hypothesis, feed_dict={X: [[1, 11, 7]]})
+    print a, sess.run(tf.arg_max(a, 1))
+
+    b = sess.run(hypothesis, feed_dict={X: [[1, 3, 4]]})
+    print b, sess.run(tf.arg_max(b, 1))
+
+    c = sess.run(hypothesis, feed_dict={X: [[1, 1, 0]]})
+    print c, sess.run(tf.arg_max(c, 1))
+
+    all = sess.run(hypothesis, feed_dict={
+        X: [
+            [1, 11, 7],
+            [1, 3, 4],
+            [1, 1, 0]
+        ]})
+    print all, sess.run(tf.arg_max(all, 1))
