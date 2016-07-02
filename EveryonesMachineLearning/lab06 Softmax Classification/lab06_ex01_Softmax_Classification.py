@@ -1,38 +1,39 @@
-# https://www.youtube.com/watch?v=t7Y9luCNzzE&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm&index=12#t=138s
+# https://www.youtube.com/watch?v=FiPpqSqR_1c#t=181s
+
 import numpy as np
 import tensorflow as tf
 
-# training data
 xy = np.loadtxt('train.txt', unpack=True, dtype='float32')
-x_data = xy[0:-1]
-y_data = xy[-1]
+x_data = np.transpose(xy[0:3])
+y_data = np.transpose(xy[3:])
 
-# variables
-X = tf.placeholder(tf.float32)
-Y = tf.placeholder(tf.float32)
+# tf Graph Input
+X = tf.placeholder("float", [None, 3])  # x1, x2 and 1 (for bias)
+Y = tf.placeholder("float", [None, 3])  # A, B, C => 3 classes
 
-# [1, len(x_data)] because we may not know the number of matrices
-W = tf.Variable(tf.random_uniform([1, len(x_data)], -1.0, 1.0))
+# Set model weights
+W = tf.Variable(tf.zeros([3, 3]))
 
-# hypothesis
-h = tf.matmul(W, X)
-hypothesis = tf.div(1.0, 1.0 + tf.exp(-h))  # H(x) = Wx + b
-# cost function
-# because Y value will be either zero or one
-cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) * tf.log(1 - hypothesis))
+# Construct model
+hypothesis = tf.nn.softmax(tf.matmul(X, W))  # Softmax
 
-# Minimize
-a = tf.Variable(0.1)  # learning rate alpha
-optimizer = tf.train.GradientDescentOptimizer(a)
-train = optimizer.minimize(cost)
+# Minimize error using cross entropy
+learning_rate = 0.001
 
+# Cross entropy
+cost = tf.reduce_mean(-tf.reduce_sum(Y * tf.log(hypothesis), reduction_indices=1))
+
+# Gradient Descent
+optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
+
+# Initializing the variables
 init = tf.initialize_all_variables()
 
-sess = tf.Session()
-sess.run(init)
+# Launch the graph
+with tf.Session() as sess:
+    sess.run(init)
 
-for step in range(2001):
-    sess.run(train, feed_dict={X: x_data, Y: y_data})
-    # intermediate report
-    if 0 == step % 20:
-        print step, sess.run(cost, feed_dict={X: x_data, Y: y_data}), sess.run(W)
+    for step in range(2000 + 1):
+        sess.run(optimizer, feed_dict={X: x_data, Y: y_data})
+        if 0 == step % 200:
+            print step, sess.run(cost, feed_dict={X: x_data, Y: y_data}), sess.run(W)
