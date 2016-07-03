@@ -7,6 +7,9 @@ Author: Aymeric Damien
 Project: https://github.com/aymericdamien/TensorFlow-Examples/
 '''
 
+from random import randint
+
+import matplotlib.pyplot as plt
 import tensorflow as tf
 
 # Import MINST data
@@ -68,3 +71,12 @@ with tf.Session() as sess:
     # Calculate accuracy
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     print "Accuracy:", accuracy.eval({x: mnist.test.images, y: mnist.test.labels})
+
+    # https://www.youtube.com/watch?v=1vCOoBwYQVU#t=7m47s
+    r = randint(0, mnist.test.num_examples - 1)
+    print("Label: %s" % sess.run(tf.argmax(mnist.test.labels[r:r + 1], 1)))
+    print("Predictions: %s" % sess.run(tf.argmax(activation, 1), {x: mnist.test.images[r:r + 1]}))
+
+    # Show the img
+    plt.imshow(mnist.test.images[r:r + 1].reshape(28, 28), cmap='Greys', interpolation='nearest')
+    plt.show()
