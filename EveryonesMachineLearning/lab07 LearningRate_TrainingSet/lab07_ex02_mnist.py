@@ -12,6 +12,7 @@ import tensorflow as tf
 # Import MINST data
 from tensorflow.examples.tutorials.mnist import input_data
 
+# TODO : Read read_data_set() code
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
 # Parameters
