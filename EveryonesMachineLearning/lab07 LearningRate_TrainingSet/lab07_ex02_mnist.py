@@ -30,10 +30,11 @@ W = tf.Variable(tf.zeros([784, 10]))
 b = tf.Variable(tf.zeros([10]))
 
 # Construct model
-pred = tf.nn.softmax(tf.matmul(x, W) + b)  # Softmax
+# https://www.youtube.com/watch?v=1vCOoBwYQVU#t=5m35s
+activation = tf.nn.softmax(tf.matmul(x, W) + b)  # Softmax
 
 # Minimize error using cross entropy
-cost = tf.reduce_mean(-tf.reduce_sum(y * tf.log(pred), reduction_indices=1))
+cost = tf.reduce_mean(-tf.reduce_sum(y * tf.log(activation), reduction_indices=1))
 # Gradient Descent
 optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
 
@@ -63,7 +64,7 @@ with tf.Session() as sess:
     print "Optimization Finished!"
 
     # Test model
-    correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
+    correct_prediction = tf.equal(tf.argmax(activation, 1), tf.argmax(y, 1))
     # Calculate accuracy
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     print "Accuracy:", accuracy.eval({x: mnist.test.images, y: mnist.test.labels})
