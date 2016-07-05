@@ -51,3 +51,4 @@ with tf.Session() as sess:
         )
     )
     print("%s %s" % ("Accuracy:", accuracy.eval({X: x_data, Y: y_data})))
+    # accuracy would not be high
