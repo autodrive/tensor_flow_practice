@@ -1,6 +1,6 @@
-# https://www.youtube.com/watch?v=t7Y9luCNzzE&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm&index=12#t=138s
-import tensorflow as tf
+# https://www.youtube.com/watch?v=9i7FBbcZPMA&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm&index=24#t=34s
 import numpy as np
+import tensorflow as tf
 
 # training data
 xy = np.loadtxt('train.txt', unpack=True, dtype='float32')
@@ -22,17 +22,32 @@ hypothesis = tf.div(1.0, 1.0 + tf.exp(-h))  # H(x) = Wx + b
 cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) * tf.log(1 - hypothesis))
 
 # Minimize
-a = tf.Variable(0.1)  # learning rate alpha
+a = tf.Variable(0.01)  # learning rate alpha
 optimizer = tf.train.GradientDescentOptimizer(a)
 train = optimizer.minimize(cost)
 
 init = tf.initialize_all_variables()
 
-sess = tf.Session()
-sess.run(init)
+# Launch the graph.
+# https://www.youtube.com/watch?v=9i7FBbcZPMA&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm&index=24#t=1m42s
+with tf.Session() as sess:
+    sess.run(init)
 
-for step in range(2001):
-    sess.run(train, feed_dict={X: x_data, Y: y_data})
-    # intermediate report
-    if 0 == step % 20:
-        print step, sess.run(cost, feed_dict={X: x_data, Y: y_data}), sess.run(W)
+    # Fit the line.
+    for step in range(1001):
+        sess.run(train, feed_dict={X: x_data, Y: y_data})
+        # intermediate report
+        if 0 == step % 200:
+            print("%s %s %s" % (step, sess.run(cost, feed_dict={X: x_data, Y: y_data}), sess.run(W)))
+
+    # Test model
+    correct_prediction = tf.equal(tf.floor(hypothesis + 0.5), Y)
+    # Calculate accuracy
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+    print(
+        sess.run(
+            [hypothesis, tf.floor(hypothesis + 0.5), correct_prediction, accuracy],
+            feed_dict={X: x_data, Y: y_data}
+        )
+    )
+    print("%s %s" % ("Accuracy:", accuracy.eval({X: x_data, Y: y_data})))
