@@ -12,12 +12,17 @@ y_data = np.reshape(xy[-1], (4, 1))
 X = tf.placeholder(tf.float32)
 Y = tf.placeholder(tf.float32)
 
-# [1, len(x_data)] because we may not know the number of matrices
-W1 = tf.Variable(tf.random_uniform([2, 2], -1.0, 1.0))
-W2 = tf.Variable(tf.random_uniform([2, 1], -1.0, 1.0))
+# number of inputs and outputs of each layer
+n_layer001_input = 2
+n_layer001_output = 2
+n_layer002_input = n_layer001_output
+n_layer002_output = 1
 
-b1 = tf.Variable(tf.zeros([2]), name="Bias1")
-b2 = tf.Variable(tf.zeros([1]), name="Bias2")
+W1 = tf.Variable(tf.random_uniform([n_layer001_input, n_layer001_output], -1.0, 1.0))
+W2 = tf.Variable(tf.random_uniform([n_layer002_input, n_layer002_output], -1.0, 1.0))
+
+b1 = tf.Variable(tf.zeros([n_layer001_output]), name="Bias1")
+b2 = tf.Variable(tf.zeros([n_layer002_output]), name="Bias2")
 
 # hypothesis
 L2 = tf.sigmoid(tf.matmul(X, W1) + b1)
