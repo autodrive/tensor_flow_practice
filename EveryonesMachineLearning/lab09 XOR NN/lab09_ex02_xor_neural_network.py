@@ -1,5 +1,7 @@
-# https://www.youtube.com/watch?v=9i7FBbcZPMA&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm&index=24#t=5m26s
-# https://github.com/jinhoyoo/deep_learning_research/blob/master/xor_example.ipynb
+# code https://www.youtube.com/watch?v=9i7FBbcZPMA&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm&index=24#t=5m26s
+# debug https://github.com/jinhoyoo/deep_learning_research/blob/master/xor_example.ipynb
+# 3 layer design https://www.youtube.com/watch?v=9i7FBbcZPMA&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm&index=24#t=11m45s
+
 import numpy as np
 import tensorflow as tf
 
@@ -14,19 +16,24 @@ Y = tf.placeholder(tf.float32)
 
 # number of inputs and outputs of each layer
 n_layer001_input = 2
-n_layer001_output = 10
+n_layer001_output = 5
 n_layer002_input = n_layer001_output
-n_layer002_output = 1
+n_layer002_output = 4
+n_layer003_input = n_layer002_output
+n_layer003_output = 1
 
 W1 = tf.Variable(tf.random_uniform([n_layer001_input, n_layer001_output], -1.0, 1.0))
 W2 = tf.Variable(tf.random_uniform([n_layer002_input, n_layer002_output], -1.0, 1.0))
+W3 = tf.Variable(tf.random_uniform([n_layer003_input, n_layer003_output], -1.0, 1.0))
 
 b1 = tf.Variable(tf.zeros([n_layer001_output]), name="Bias1")
 b2 = tf.Variable(tf.zeros([n_layer002_output]), name="Bias2")
+b3 = tf.Variable(tf.zeros([n_layer003_output]), name="Bias3")
 
 # hypothesis
 L2 = tf.sigmoid(tf.matmul(X, W1) + b1)
-hypothesis = tf.sigmoid(tf.matmul(L2, W2) + b2)
+L3 = tf.sigmoid(tf.matmul(L2, W2) + b2)
+hypothesis = tf.sigmoid(tf.matmul(L3, W3) + b3)
 
 # cost function
 # because Y value will be either zero or one
