@@ -14,7 +14,7 @@ Y = tf.placeholder(tf.float32)
 
 # number of inputs and outputs of each layer
 n_layer001_input = 2
-n_layer001_output = 2
+n_layer001_output = 10
 n_layer002_input = n_layer001_output
 n_layer002_output = 1
 
