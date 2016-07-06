@@ -113,5 +113,9 @@ with tf.Session() as sess:
     print("%s %s" % ("Accuracy:", accuracy.eval({X: x_data, Y: y_data})))
     # accuracy would be higher
 
-os.system("tensorboard --logdir=%s" % log_dir)
+import sys
+
+if 2 <= len(sys.argv):
+    tensorboard = sys.argv[1]
+    os.system("%s --logdir=%s" % (tensorboard, log_dir))
 # http://0.0.0.0:6006
