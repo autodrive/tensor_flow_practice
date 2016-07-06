@@ -1,5 +1,6 @@
 # Name varialbes    https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=4m:47s
 # Grouping          https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=5m:06s
+# Histogram Summary https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=5m:48s
 
 import numpy as np
 import tensorflow as tf
@@ -25,9 +26,21 @@ W1 = tf.Variable(tf.random_uniform([n_layer001_input, n_layer001_output], -1.0, 
 W2 = tf.Variable(tf.random_uniform([n_layer002_input, n_layer002_output], -1.0, 1.0), name='Weight2')
 W3 = tf.Variable(tf.random_uniform([n_layer003_input, n_layer003_output], -1.0, 1.0), name='Weight3')
 
+# TODO : try name_scope("weights") or "biases"
+w1_hist = tf.histogram_summary("weights1", W1)
+w2_hist = tf.histogram_summary("weights2", W2)
+w3_hist = tf.histogram_summary("weights3", W3)
+
 b1 = tf.Variable(tf.zeros([n_layer001_output]), name="Bias1")
 b2 = tf.Variable(tf.zeros([n_layer002_output]), name="Bias2")
 b3 = tf.Variable(tf.zeros([n_layer003_output]), name="Bias3")
+
+# TODO : try name_scope("weights") or "biases"
+b1_hist = tf.histogram_summary("biases1", W1)
+b2_hist = tf.histogram_summary("biases2", W2)
+b3_hist = tf.histogram_summary("biases3", W3)
+
+y_hist = tf.histogram_summary("y", Y)
 
 # hypothesis
 with tf.name_scope("layer2") as scope:
