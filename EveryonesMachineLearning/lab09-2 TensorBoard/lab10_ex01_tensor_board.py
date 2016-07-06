@@ -1,6 +1,9 @@
 # Name varialbes    https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=4m:47s
 # Grouping          https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=5m:06s
 # Histogram Summary https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=5m:48s
+# Merge             https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=6m:54s
+
+import os
 
 import numpy as np
 import tensorflow as tf
@@ -68,6 +71,18 @@ init = tf.initialize_all_variables()
 # https://www.youtube.com/watch?v=9i7FBbcZPMA&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm&index=24#t=1m42s
 with tf.Session() as sess:
     sess.run(init)
+
+    # tensorboard --logdir=./logs/xor_logs
+
+    # merge summaries
+    # all summaries go here
+    merged = tf.merge_all_summaries()
+
+    # create writer as if opening a file
+    # sess.graph_def -> sess.graph because .graph_def depricated
+    writer = tf.train.SummaryWriter(os.path.join(os.curdir, 'logs', 'xor_logs'),
+                                    sess.graph)
+    # "writer" is similar to a file?
 
     # Fit the line.
     for step in range(8001):
