@@ -1,0 +1,7 @@
+# XOR
+# x1 x2  y
+# https://github.com/jinhoyoo/deep_learning_research/blob/master/xor_dataset.txt
+0   0      0
+0   1      1
+1   0      1
+1   1      0
