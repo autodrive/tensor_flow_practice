@@ -1,6 +1,5 @@
-# code https://www.youtube.com/watch?v=9i7FBbcZPMA&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm&index=24#t=5m26s
-# debug https://github.com/jinhoyoo/deep_learning_research/blob/master/xor_example.ipynb
-# 3 layer design https://www.youtube.com/watch?v=9i7FBbcZPMA&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm&index=24#t=11m45s
+# Name varialbes https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=4m:47s
+
 
 import numpy as np
 import tensorflow as tf
@@ -11,8 +10,8 @@ x_data = np.transpose(xy[0:-1])
 y_data = np.reshape(xy[-1], (4, 1))
 
 # variables
-X = tf.placeholder(tf.float32)
-Y = tf.placeholder(tf.float32)
+X = tf.placeholder(tf.float32, name='X-input')
+Y = tf.placeholder(tf.float32, name='Y-input')
 
 # number of inputs and outputs of each layer
 n_layer001_input = 2
@@ -22,9 +21,9 @@ n_layer002_output = 4
 n_layer003_input = n_layer002_output
 n_layer003_output = 1
 
-W1 = tf.Variable(tf.random_uniform([n_layer001_input, n_layer001_output], -1.0, 1.0))
-W2 = tf.Variable(tf.random_uniform([n_layer002_input, n_layer002_output], -1.0, 1.0))
-W3 = tf.Variable(tf.random_uniform([n_layer003_input, n_layer003_output], -1.0, 1.0))
+W1 = tf.Variable(tf.random_uniform([n_layer001_input, n_layer001_output], -1.0, 1.0), name='Weight1')
+W2 = tf.Variable(tf.random_uniform([n_layer002_input, n_layer002_output], -1.0, 1.0), name='Weight2')
+W3 = tf.Variable(tf.random_uniform([n_layer003_input, n_layer003_output], -1.0, 1.0), name='Weight3')
 
 b1 = tf.Variable(tf.zeros([n_layer001_output]), name="Bias1")
 b2 = tf.Variable(tf.zeros([n_layer002_output]), name="Bias2")
