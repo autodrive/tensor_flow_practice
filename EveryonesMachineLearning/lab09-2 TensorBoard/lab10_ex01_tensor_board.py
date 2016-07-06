@@ -97,7 +97,7 @@ with tf.Session() as sess:
                 sess.run(cost, feed_dict={X: x_data, Y: y_data}),
                 sess.run(W1),
                 sess.run(W2)))
-            summary = sess.run(merged, feed_dict={X: x_data, Y: y_data})
+            summary = sess.run([merged, train], feed_dict={X: x_data, Y: y_data})
             writer.add_summary(summary, step)
             # https://github.com/tensorflow/tensorflow/issues/530#issuecomment-167463430
             writer.flush()
