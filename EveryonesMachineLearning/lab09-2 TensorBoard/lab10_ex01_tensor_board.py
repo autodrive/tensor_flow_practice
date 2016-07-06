@@ -1,5 +1,5 @@
-# Name varialbes https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=4m:47s
-
+# Name varialbes    https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=4m:47s
+# Grouping          https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=5m:06s
 
 import numpy as np
 import tensorflow as tf
@@ -30,18 +30,24 @@ b2 = tf.Variable(tf.zeros([n_layer002_output]), name="Bias2")
 b3 = tf.Variable(tf.zeros([n_layer003_output]), name="Bias3")
 
 # hypothesis
-L2 = tf.sigmoid(tf.matmul(X, W1) + b1)
-L3 = tf.sigmoid(tf.matmul(L2, W2) + b2)
-hypothesis = tf.sigmoid(tf.matmul(L3, W3) + b3)
+with tf.name_scope("layer2") as scope:
+    L2 = tf.sigmoid(tf.matmul(X, W1) + b1)
+with tf.name_scope("layer3") as scope:
+    L3 = tf.sigmoid(tf.matmul(L2, W2) + b2)
+with tf.name_scope("layer4") as scope:
+    hypothesis = tf.sigmoid(tf.matmul(L3, W3) + b3)
 
 # cost function
 # because Y value will be either zero or one
-cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) * tf.log(1 - hypothesis))
+with tf.name_scope("cost") as scope:
+    cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) * tf.log(1 - hypothesis))
+    cost_summ = tf.scalar_summary("cost", cost)
 
 # Minimize
 a = tf.Variable(0.1)  # learning rate alpha
-optimizer = tf.train.GradientDescentOptimizer(a)
-train = optimizer.minimize(cost)
+with tf.name_scope("train") as scope:
+    optimizer = tf.train.GradientDescentOptimizer(a)
+    train = optimizer.minimize(cost)
 
 init = tf.initialize_all_variables()
 
