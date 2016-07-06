@@ -1,0 +1,7 @@
+# XOR
+# x1 x2  y
+# https://www.youtube.com/watch?v=9i7FBbcZPMA&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm&index=24#t=25s
+0   0      0
+0   1      1
+1   0      1
+1   1      0
