@@ -1,7 +1,8 @@
-# Name varialbes    https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=4m:47s
-# Grouping          https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=5m:06s
-# Histogram Summary https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=5m:48s
-# Merge             https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=6m:54s
+# Name varialbes        https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=4m:47s
+# Grouping              https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=5m:06s
+# Histogram Summary     https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=5m:48s
+# Merge                 https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=6m:54s
+# Run merged summary    https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=7m:42s
 
 import os
 
@@ -94,6 +95,8 @@ with tf.Session() as sess:
                 sess.run(cost, feed_dict={X: x_data, Y: y_data}),
                 sess.run(W1),
                 sess.run(W2)))
+            summary = sess.run(merged, feed_dict={X: x_data, Y: y_data})
+            writer.add_summary(summary, step)
 
     # Test model
     correct_prediction = tf.equal(tf.floor(hypothesis + 0.5), Y)
