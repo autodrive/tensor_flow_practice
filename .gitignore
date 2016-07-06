@@ -67,3 +67,6 @@ target/
 # test
 MNIST_data/
 data/
+
+# tensorboard testing
+EveryonesMachineLearning/lab09-2\ TensorBoard/logs/xor_logs/
