@@ -3,6 +3,7 @@
 # Histogram Summary     https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=5m:48s
 # Merge                 https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=6m:54s
 # Run merged summary    https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=7m:42s
+# Launch tensorboard    https://www.youtube.com/watch?v=eDKxY5Z5dVQ#t=9m:11s
 
 import os
 
@@ -68,6 +69,8 @@ with tf.name_scope("train") as scope:
 
 init = tf.initialize_all_variables()
 
+log_dir = os.path.join(os.curdir, 'logs', 'xor_logs')
+
 # Launch the graph.
 # https://www.youtube.com/watch?v=9i7FBbcZPMA&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm&index=24#t=1m42s
 with tf.Session() as sess:
@@ -81,8 +84,7 @@ with tf.Session() as sess:
 
     # create writer as if opening a file
     # sess.graph_def -> sess.graph because .graph_def depricated
-    writer = tf.train.SummaryWriter(os.path.join(os.curdir, 'logs', 'xor_logs'),
-                                    sess.graph)
+    writer = tf.train.SummaryWriter(log_dir, sess.graph)
     # "writer" is similar to a file?
 
     # Fit the line.
@@ -110,3 +112,6 @@ with tf.Session() as sess:
     )
     print("%s %s" % ("Accuracy:", accuracy.eval({X: x_data, Y: y_data})))
     # accuracy would be higher
+
+os.system("tensorboard --logdir=%s" % log_dir)
+# http://0.0.0.0:6006
