@@ -81,7 +81,7 @@ def design_one_layer(k, width, last_layer, last_width):
 
 
 def design_output_layer(last_layer):
-    # output layer
+    # output layer output must be between 0 and 1
     with tf.name_scope("last") as scope:
         hypothesis = tf.sigmoid(last_layer)
     return hypothesis
