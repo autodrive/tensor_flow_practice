@@ -41,13 +41,11 @@ def main():
 def design_network(widths_list, x_data, X, b_biases_histogram, b_weights_histogram):
     weights_list = []
     biases_list = []
-    layers_list = []
     weights_histograms_list = []
     biases_histograms_list = []
-    # Input Layer
-    with tf.name_scope("input_layer") as scope:
-        layer = X
-        layers_list.append(layer)
+
+    layer, layers_list = design_input_layer(X)
+
     last_layer = layer
     last_width = x_data.shape[1]
     # layers loop
@@ -81,6 +79,15 @@ def design_network(widths_list, x_data, X, b_biases_histogram, b_weights_histogr
     with tf.name_scope("output_layer") as scope:
         hypothesis = layers_list[-1]
     return hypothesis
+
+
+def design_input_layer(X):
+    layers_list = []
+    # Input Layer
+    with tf.name_scope("input_layer") as scope:
+        layer = X
+        layers_list.append(layer)
+    return layer, layers_list
 
 
 def design_cost_function(Y, hypothesis):
