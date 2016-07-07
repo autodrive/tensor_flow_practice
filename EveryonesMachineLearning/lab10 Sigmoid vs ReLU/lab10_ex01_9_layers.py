@@ -1,4 +1,7 @@
-# https://www.youtube.com/watch?v=cKtg_fpw88c#t=3m50s
+# weights & biases https://www.youtube.com/watch?v=cKtg_fpw88c#t=3m50s
+# network https://www.youtube.com/watch?v=cKtg_fpw88c#t=4m30s
+# network labels https://www.youtube.com/watch?v=cKtg_fpw88c#t=5m06s
+# ReLu https://www.youtube.com/watch?v=cKtg_fpw88c#t=14m12s
 
 import os
 
