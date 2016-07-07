@@ -49,6 +49,7 @@ def main():
 
         weights_list.append(W)
         biases_list.append(b)
+        layers_list.append(L)
 
         # Add histogram
 
@@ -58,7 +59,6 @@ def main():
         if b_biases_histogram:
             b_hist = tf.histogram_summary("biases%d" % (k + 1), b)
             biases_histograms_list.append(b_hist)
-        layers_list.append(L)
 
     # output layer
     with tf.name_scope("output_layer") as scope:
