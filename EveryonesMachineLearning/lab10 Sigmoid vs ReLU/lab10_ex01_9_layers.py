@@ -73,10 +73,10 @@ with tf.name_scope("train") as scope:
     optimizer = tf.train.GradientDescentOptimizer(a)
     train = optimizer.minimize(cost)
 
+log_dir = os.path.join(os.curdir, 'logs', 'xor_logs')
+
 # Initializa all variables.
 init = tf.initialize_all_variables()
-
-log_dir = os.path.join(os.curdir, 'logs', 'xor_logs')
 
 # Launch the graph
 with tf.Session() as sess:
