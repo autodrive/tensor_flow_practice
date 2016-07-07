@@ -133,6 +133,7 @@ with tf.Session() as sess:
     # Test model
     correct_prediction = tf.equal(tf.floor(hypothesis + 0.5), Y)
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+    accuracy_summ = tf.scalar_summary("accuracy", accuracy)
 
     # Check accuracy
     print(sess.run([hypothesis, tf.floor(hypothesis + 0.5), correct_prediction, accuracy],
