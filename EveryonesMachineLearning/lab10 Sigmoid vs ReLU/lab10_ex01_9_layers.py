@@ -13,6 +13,7 @@ y_data = np.reshape(xy[-1], (4, 1))
 
 X = tf.placeholder(tf.float32, name='X-input')
 Y = tf.placeholder(tf.float32, name='Y-input')
+y_hist = tf.histogram_summary("y", Y)
 
 n_nodes_list = [x_data.shape]
 
@@ -32,8 +33,6 @@ W3 = tf.Variable(tf.random_uniform([4, 1], -1.0, 1.0), name='weight3')
 w3_hist = tf.histogram_summary("weights3", W3)
 b3 = tf.Variable(tf.zeros([1]), name="bias3")
 b3_hist = tf.histogram_summary("biases3", b3)
-
-y_hist = tf.histogram_summary("y", Y)
 
 # Hypotheses
 with tf.name_scope("layer2") as scope:
