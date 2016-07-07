@@ -20,7 +20,7 @@ def main():
     # number of hidden layers = 9
     # output layer width = 1
 
-    n_nodes_list = [x_data.shape[1]] + [10, 9, 8, 7, 6, 5, 4, 3, 2] + [1]
+    n_nodes_list = [x_data.shape[1]] + [10, 2, 9, 3, 8, 4, 7, 5, 6] + [1]
 
     hypothesis = design_network(n_nodes_list, x_data, X, )
 
@@ -47,14 +47,7 @@ def design_network(widths_list, x_data, input_placeholder, b_biases_histogram=Fa
     last_width = x_data.shape[1]
     # layers loop
     for k, width in enumerate(widths_list[1:]):
-        # Deep network configuration.: Use more layers.
-        weight = tf.Variable(tf.random_uniform([last_width, width],
-                                               -1.0, 1.0),
-                             name='weight%d' % (k + 1))
-        bias = tf.Variable(tf.zeros([widths_list[k + 1]]), name="bias%d" % (k + 1))
-
-        with tf.name_scope("layer%d" % (k + 1)) as scope:
-            layer = tf.sigmoid(tf.matmul(last_layer, weight) + bias)
+        bias, layer, weight = design_one_layer(k, width, last_layer, last_width)
 
         weights_list.append(weight)
         biases_list.append(bias)
@@ -75,6 +68,16 @@ def design_network(widths_list, x_data, input_placeholder, b_biases_histogram=Fa
     hypothesis = design_output_layer(layers_list)
 
     return hypothesis
+
+
+def design_one_layer(k, width, last_layer, last_width):
+    weight = tf.Variable(tf.random_uniform([last_width, width],
+                                           -1.0, 1.0),
+                         name='weight%d' % (k + 1))
+    bias = tf.Variable(tf.zeros([width]), name="bias%d" % (k + 1))
+    with tf.name_scope("layer%d" % (k + 1)) as scope:
+        layer = tf.sigmoid(tf.matmul(last_layer, weight) + bias)
+    return bias, layer, weight
 
 
 def design_output_layer(layers_list):
