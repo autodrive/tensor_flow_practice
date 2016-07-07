@@ -20,16 +20,17 @@ def main():
     b_biases_histogram = False
 
     n_nodes_list = [x_data.shape[1]] + [5] * 9 + [1]
+
+    X = tf.placeholder(tf.float32, name='X-input')
+    Y = tf.placeholder(tf.float32, name='Y-input')
+    y_hist = tf.histogram_summary("y", Y)
+
     weights_list = []
     biases_list = []
     layers_list = []
 
     weights_histograms_list = []
     biases_histograms_list = []
-
-    X = tf.placeholder(tf.float32, name='X-input')
-    Y = tf.placeholder(tf.float32, name='Y-input')
-    y_hist = tf.histogram_summary("y", Y)
 
     # Input Layer
     with tf.name_scope("input_layer") as scope:
