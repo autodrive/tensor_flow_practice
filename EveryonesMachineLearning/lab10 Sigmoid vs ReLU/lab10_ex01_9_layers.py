@@ -121,9 +121,9 @@ with tf.Session() as sess:
     sess.run(init)
 
     # Run graph.
-    for step in range(20001):
+    for step in range(10001):
         sess.run(train, feed_dict={X: x_data, Y: y_data})
-        if step % 2000 == 0:
+        if step % 500 == 0:
             summary, _ = sess.run([merged, train], feed_dict={X: x_data, Y: y_data})
             writer.add_summary(summary, step)
 
