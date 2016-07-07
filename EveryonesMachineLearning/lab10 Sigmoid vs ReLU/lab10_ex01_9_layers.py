@@ -64,10 +64,7 @@ def main():
     with tf.name_scope("output_layer") as scope:
         hypothesis = layers_list[-1]
 
-    # Cost function
-    with tf.name_scope("cost") as scope:
-        cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) * tf.log(1. - hypothesis))
-        cost_summ = tf.scalar_summary("cost", cost)
+    cost = design_cost_function(Y, hypothesis)
 
     train = design_optimizer(cost)
 
@@ -76,6 +73,14 @@ def main():
     run_graph(X, Y, hypothesis, train, x_data, y_data)
 
     run_tensorboard(log_dir)
+
+
+def design_cost_function(Y, hypothesis):
+    # Cost function
+    with tf.name_scope("cost") as scope:
+        cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) * tf.log(1. - hypothesis))
+        cost_summ = tf.scalar_summary("cost", cost)
+    return cost
 
 
 def design_optimizer(cost):
