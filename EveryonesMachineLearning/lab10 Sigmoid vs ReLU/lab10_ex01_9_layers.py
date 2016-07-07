@@ -18,11 +18,12 @@ n_nodes_list = [x_data.shape]
 
 # Deep network configuration.: Use more layers.
 W1 = tf.Variable(tf.random_uniform([2, 5], -1.0, 1.0), name='weight1')
-W2 = tf.Variable(tf.random_uniform([5, 4], -1.0, 1.0), name='weight2')
-W3 = tf.Variable(tf.random_uniform([4, 1], -1.0, 1.0), name='weight3')
-
 b1 = tf.Variable(tf.zeros([5]), name="bias1")
+
+W2 = tf.Variable(tf.random_uniform([5, 4], -1.0, 1.0), name='weight2')
 b2 = tf.Variable(tf.zeros([4]), name="bias2")
+
+W3 = tf.Variable(tf.random_uniform([4, 1], -1.0, 1.0), name='weight3')
 b3 = tf.Variable(tf.zeros([1]), name="bias3")
 
 # Add histogram
