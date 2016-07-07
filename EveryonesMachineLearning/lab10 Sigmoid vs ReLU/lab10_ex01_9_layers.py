@@ -104,9 +104,9 @@ def design_cost_function(Y, hypothesis):
     return cost
 
 
-def design_optimizer(cost):
+def design_optimizer(cost, alpha=0.1):
     # Minimize cost.
-    a = tf.Variable(0.1)
+    a = tf.Variable(alpha)
     with tf.name_scope("train") as scope:
         optimizer = tf.train.GradientDescentOptimizer(a)
         train = optimizer.minimize(cost)
