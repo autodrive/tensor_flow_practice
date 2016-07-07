@@ -25,28 +25,38 @@ def main():
     Y = tf.placeholder(tf.float32, name='Y-input')
     y_hist = tf.histogram_summary("y", Y)
 
+    hypothesis = design_network(n_nodes_list, x_data, X, b_biases_histogram, b_weights_histogram)
+
+    cost = design_cost_function(Y, hypothesis)
+
+    train = design_optimizer(cost)
+
+    log_dir = os.path.join(os.curdir, 'logs', 'xor_logs')
+
+    run_graph(X, Y, hypothesis, train, x_data, y_data)
+
+    run_tensorboard(log_dir)
+
+
+def design_network(widths_list, x_data, X, b_biases_histogram, b_weights_histogram):
     weights_list = []
     biases_list = []
     layers_list = []
-
     weights_histograms_list = []
     biases_histograms_list = []
-
     # Input Layer
     with tf.name_scope("input_layer") as scope:
         layer = X
         layers_list.append(layer)
-
     last_layer = layer
     last_width = x_data.shape[1]
-
     # layers loop
-    for k, width in enumerate(n_nodes_list[1:]):
+    for k, width in enumerate(widths_list[1:]):
         # Deep network configuration.: Use more layers.
         weight = tf.Variable(tf.random_uniform([last_width, width],
                                                -1.0, 1.0),
                              name='weight%d' % (k + 1))
-        bias = tf.Variable(tf.zeros([n_nodes_list[k + 1]]), name="bias%d" % (k + 1))
+        bias = tf.Variable(tf.zeros([widths_list[k + 1]]), name="bias%d" % (k + 1))
 
         with tf.name_scope("layer%d" % (k + 1)) as scope:
             layer = tf.sigmoid(tf.matmul(last_layer, weight) + bias)
@@ -70,16 +80,7 @@ def main():
     # output layer
     with tf.name_scope("output_layer") as scope:
         hypothesis = layers_list[-1]
-
-    cost = design_cost_function(Y, hypothesis)
-
-    train = design_optimizer(cost)
-
-    log_dir = os.path.join(os.curdir, 'logs', 'xor_logs')
-
-    run_graph(X, Y, hypothesis, train, x_data, y_data)
-
-    run_tensorboard(log_dir)
+    return hypothesis
 
 
 def design_cost_function(Y, hypothesis):
