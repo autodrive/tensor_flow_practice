@@ -1,6 +1,4 @@
-# https://github.com/jinhoyoo/deep_learning_research/blob/master/tensor_board_example.ipynb
-# Use 'Deep' neural network to solve XOR problem.
-
+# https://www.youtube.com/watch?v=cKtg_fpw88c#t=3m50s
 import os
 
 import numpy as np
@@ -11,7 +9,12 @@ xy = np.loadtxt('xor_dataset.txt', unpack=True)
 x_data = np.transpose(xy[0:-1])
 y_data = np.reshape(xy[-1], (4, 1))
 
-n_nodes_list = [x_data.shape[1], 5, 4, 1]
+# input layer width = x_data.shape[1]
+# hidden layer width = 5
+# number of hidden layers = 9
+# output layer width = 1
+
+n_nodes_list = [x_data.shape[1]] + [5] * 9 + [1]
 weights_list = []
 weights_histograms_list = []
 biases_list = []
