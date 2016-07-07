@@ -13,7 +13,9 @@ y_data = np.reshape(xy[-1], (4, 1))
 
 n_nodes_list = [x_data.shape[1], 5, 4, 1]
 weights_list = []
+weights_histograms_list = []
 biases_list = []
+biases_histograms_list = []
 layers_list = []
 
 X = tf.placeholder(tf.float32, name='X-input')
@@ -22,34 +24,33 @@ y_hist = tf.histogram_summary("y", Y)
 
 # Input Layer
 with tf.name_scope("layer1") as scope:
-    L1 = X
+    L = X
+layers_list.append(L)
 
-# Deep network configuration.: Use more layers.
-W1 = tf.Variable(tf.random_uniform([2, 5], -1.0, 1.0), name='weight1')
-# Add histogram
-w1_hist = tf.histogram_summary("weights1", W1)
-b1 = tf.Variable(tf.zeros([5]), name="bias1")
-b1_hist = tf.histogram_summary("biases1", b1)
+# layers loop
+for k, width in enumerate(n_nodes_list[:-1]):
+    # Deep network configuration.: Use more layers.
+    W = tf.Variable(tf.random_uniform([n_nodes_list[k], n_nodes_list[k + 1]],
+                                      -1.0, 1.0),
+                    name='weight%d' % (k + 1))
+    # Add histogram
+    w_hist = tf.histogram_summary("weights%d" % (k + 1), W)
+    b = tf.Variable(tf.zeros([n_nodes_list[k + 1]]), name="bias%d" % (k + 1))
+    b_hist = tf.histogram_summary("biases%d" % (k + 1), b)
 
-# Hypotheses
-with tf.name_scope("layer2") as scope:
-    L2 = tf.sigmoid(tf.matmul(L1, W1) + b1)
+    # Hypotheses
+    with tf.name_scope("layer%d" % (k + 2)) as scope:
+        L = tf.sigmoid(tf.matmul(layers_list[-1], W) + b)
 
-W2 = tf.Variable(tf.random_uniform([5, 4], -1.0, 1.0), name='weight2')
-w2_hist = tf.histogram_summary("weights2", W2)
-b2 = tf.Variable(tf.zeros([4]), name="bias2")
-b2_hist = tf.histogram_summary("biases2", b2)
+    weights_list.append(W)
+    weights_histograms_list.append(w_hist)
+    biases_list.append(b)
+    biases_histograms_list.append(b_hist)
+    layers_list.append(L)
 
-with tf.name_scope("layer3") as scope:
-    L3 = tf.sigmoid(tf.matmul(L2, W2) + b2)
-
-W3 = tf.Variable(tf.random_uniform([4, 1], -1.0, 1.0), name='weight3')
-w3_hist = tf.histogram_summary("weights3", W3)
-b3 = tf.Variable(tf.zeros([1]), name="bias3")
-b3_hist = tf.histogram_summary("biases3", b3)
-
-with tf.name_scope("layer4") as scope:
-    hypothesis = tf.sigmoid(tf.matmul(L3, W3) + b3)
+# output layer
+with tf.name_scope("output") as scope:
+    hypothesis = layers_list[-1]
 
 # Cost function
 with tf.name_scope("cost") as scope:
