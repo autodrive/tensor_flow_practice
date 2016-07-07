@@ -71,6 +71,8 @@ y_hist = tf.histogram_summary("y", Y)
 # input layer
 with tf.name_scope("layer1") as scope:
     L1 = tf.nn.relu(tf.matmul(X, W1) + b1)
+
+# hidden layers
 with tf.name_scope("layer2") as scope:
     L2 = tf.nn.relu(tf.matmul(L1, W2) + b2)
 with tf.name_scope("layer3") as scope:
@@ -90,6 +92,7 @@ with tf.name_scope("layer9") as scope:
 with tf.name_scope("layer10") as scope:
     L10 = tf.nn.relu(tf.matmul(L9, W10) + b10)
 
+# output layer
 with tf.name_scope("last") as scope:
     hypothesis = tf.sigmoid(tf.matmul(L10, W11) + b11)
 
