@@ -11,19 +11,19 @@ def main():
     x_data = np.transpose(xy[0:-1])
     y_data = np.reshape(xy[-1], (4, 1))
 
+    b_weights_histogram = False
+    b_biases_histogram = False
+
+    X = tf.placeholder(tf.float32, name='X-input')
+    Y = tf.placeholder(tf.float32, name='Y-input')
+    y_hist = tf.histogram_summary("y", Y)
+
     # input layer width = x_data.shape[1]
     # hidden layer width = 5
     # number of hidden layers = 9
     # output layer width = 1
 
-    b_weights_histogram = False
-    b_biases_histogram = False
-
-    n_nodes_list = [x_data.shape[1]] + [5] * 9 + [1]
-
-    X = tf.placeholder(tf.float32, name='X-input')
-    Y = tf.placeholder(tf.float32, name='Y-input')
-    y_hist = tf.histogram_summary("y", Y)
+    n_nodes_list = [x_data.shape[1]] + [10, 9, 8, 7, 6, 5, 4, 3, 2] + [1]
 
     hypothesis = design_network(n_nodes_list, x_data, X, b_biases_histogram, b_weights_histogram)
 
