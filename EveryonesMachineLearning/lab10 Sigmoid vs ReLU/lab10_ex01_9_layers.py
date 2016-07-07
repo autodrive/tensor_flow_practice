@@ -29,9 +29,9 @@ def main():
     train = design_optimizer(cost)
 
     log_dir = os.path.join(os.curdir, 'logs', 'xor_logs')
+    del_log(log_dir)
 
     run_graph(X, Y, hypothesis, train, x_data, y_data)
-
     run_tensorboard(log_dir)
 
 
@@ -125,9 +125,9 @@ def run_graph(X, Y, hypothesis, train, x_data, y_data):
         sess.run(init)
 
         # Run graph.
-        for step in range(8750 + 1):
+        for step in range(20000 + 1):
             sess.run(train, feed_dict={X: x_data, Y: y_data})
-            if step % 500 == 0:
+            if step % 100 == 0:
                 summary, _ = sess.run([merged, train], feed_dict={X: x_data, Y: y_data})
                 writer.add_summary(summary, step)
 
@@ -139,6 +139,12 @@ def run_graph(X, Y, hypothesis, train, x_data, y_data):
         print(sess.run([hypothesis, tf.floor(hypothesis + 0.5), correct_prediction, accuracy],
                        feed_dict={X: x_data, Y: y_data}))
         print("Accuracy:", accuracy.eval({X: x_data, Y: y_data}))
+
+
+def del_log(log_dir):
+    for dirpath, dirnames, filenames in os.walk(log_dir):
+        for filename in filenames:
+            os.remove(os.path.join(dirpath, filename))
 
 
 def run_tensorboard(log_dir):
