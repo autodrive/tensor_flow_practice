@@ -33,31 +33,31 @@ def main():
 
     # Input Layer
     with tf.name_scope("input_layer") as scope:
-        L = X
-        layers_list.append(L)
+        layer = X
+        layers_list.append(layer)
 
     # layers loop
     for k, width in enumerate(n_nodes_list[:-1]):
         # Deep network configuration.: Use more layers.
-        W = tf.Variable(tf.random_uniform([n_nodes_list[k], n_nodes_list[k + 1]],
-                                          -1.0, 1.0),
-                        name='weight%d' % (k + 1))
-        b = tf.Variable(tf.zeros([n_nodes_list[k + 1]]), name="bias%d" % (k + 1))
+        weight = tf.Variable(tf.random_uniform([n_nodes_list[k], n_nodes_list[k + 1]],
+                                               -1.0, 1.0),
+                             name='weight%d' % (k + 1))
+        bias = tf.Variable(tf.zeros([n_nodes_list[k + 1]]), name="bias%d" % (k + 1))
 
         with tf.name_scope("layer%d" % (k + 1)) as scope:
-            L = tf.sigmoid(tf.matmul(layers_list[-1], W) + b)
+            layer = tf.sigmoid(tf.matmul(layers_list[-1], weight) + bias)
 
-        weights_list.append(W)
-        biases_list.append(b)
-        layers_list.append(L)
+        weights_list.append(weight)
+        biases_list.append(bias)
+        layers_list.append(layer)
 
         # Add histogram
 
         if b_weights_histogram:
-            w_hist = tf.histogram_summary("weights%d" % (k + 1), W)
+            w_hist = tf.histogram_summary("weights%d" % (k + 1), weight)
             weights_histograms_list.append(w_hist)
         if b_biases_histogram:
-            b_hist = tf.histogram_summary("biases%d" % (k + 1), b)
+            b_hist = tf.histogram_summary("biases%d" % (k + 1), bias)
             biases_histograms_list.append(b_hist)
 
     # output layer
