@@ -14,6 +14,8 @@ y_data = np.reshape(xy[-1], (4, 1))
 X = tf.placeholder(tf.float32, name='X-input')
 Y = tf.placeholder(tf.float32, name='Y-input')
 
+n_nodes_list = [x_data.shape]
+
 # Deep network configuration.: Use more layers.
 W1 = tf.Variable(tf.random_uniform([2, 5], -1.0, 1.0), name='weight1')
 W2 = tf.Variable(tf.random_uniform([5, 4], -1.0, 1.0), name='weight2')
@@ -83,7 +85,6 @@ with tf.Session() as sess:
     print(sess.run([hypothesis, tf.floor(hypothesis + 0.5), correct_prediction, accuracy],
                    feed_dict={X: x_data, Y: y_data}))
     print("Accuracy:", accuracy.eval({X: x_data, Y: y_data}))
-
 
 import sys
 
