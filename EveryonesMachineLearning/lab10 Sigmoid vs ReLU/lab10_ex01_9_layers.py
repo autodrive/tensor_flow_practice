@@ -75,6 +75,12 @@ def design_network(widths_list, x_data, X, b_biases_histogram, b_weights_histogr
             b_hist = tf.histogram_summary("biases%d" % (k + 1), bias)
             biases_histograms_list.append(b_hist)
 
+    hypothesis = design_output_layer(layers_list)
+
+    return hypothesis
+
+
+def design_output_layer(layers_list):
     # output layer
     with tf.name_scope("output_layer") as scope:
         hypothesis = layers_list[-1]
