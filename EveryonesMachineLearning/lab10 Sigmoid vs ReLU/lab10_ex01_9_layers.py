@@ -36,20 +36,26 @@ def main():
         layer = X
         layers_list.append(layer)
 
+    last_layer = layer
+    last_width = x_data.shape[1]
+
     # layers loop
-    for k, width in enumerate(n_nodes_list[:-1]):
+    for k, width in enumerate(n_nodes_list[1:]):
         # Deep network configuration.: Use more layers.
-        weight = tf.Variable(tf.random_uniform([n_nodes_list[k], n_nodes_list[k + 1]],
+        weight = tf.Variable(tf.random_uniform([last_width, width],
                                                -1.0, 1.0),
                              name='weight%d' % (k + 1))
         bias = tf.Variable(tf.zeros([n_nodes_list[k + 1]]), name="bias%d" % (k + 1))
 
         with tf.name_scope("layer%d" % (k + 1)) as scope:
-            layer = tf.sigmoid(tf.matmul(layers_list[-1], weight) + bias)
+            layer = tf.sigmoid(tf.matmul(last_layer, weight) + bias)
 
         weights_list.append(weight)
         biases_list.append(bias)
         layers_list.append(layer)
+
+        last_layer = layer
+        last_width = width
 
         # Add histogram
 
