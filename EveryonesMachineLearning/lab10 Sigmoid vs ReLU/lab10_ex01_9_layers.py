@@ -12,10 +12,17 @@ x_data = np.transpose(xy[0:-1])
 y_data = np.reshape(xy[-1], (4, 1))
 
 n_nodes_list = [x_data.shape[1], 5, 4, 1]
+weights_list = []
+biases_list = []
+layers_list = []
 
 X = tf.placeholder(tf.float32, name='X-input')
 Y = tf.placeholder(tf.float32, name='Y-input')
 y_hist = tf.histogram_summary("y", Y)
+
+# Input Layer
+with tf.name_scope("layer1") as scope:
+    L1 = X
 
 # Deep network configuration.: Use more layers.
 W1 = tf.Variable(tf.random_uniform([2, 5], -1.0, 1.0), name='weight1')
@@ -26,7 +33,7 @@ b1_hist = tf.histogram_summary("biases1", b1)
 
 # Hypotheses
 with tf.name_scope("layer2") as scope:
-    L2 = tf.sigmoid(tf.matmul(X, W1) + b1)
+    L2 = tf.sigmoid(tf.matmul(L1, W1) + b1)
 
 W2 = tf.Variable(tf.random_uniform([5, 4], -1.0, 1.0), name='weight2')
 w2_hist = tf.histogram_summary("weights2", W2)
