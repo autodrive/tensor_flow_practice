@@ -24,22 +24,22 @@ w1_hist = tf.histogram_summary("weights1", W1)
 b1 = tf.Variable(tf.zeros([5]), name="bias1")
 b1_hist = tf.histogram_summary("biases1", b1)
 
+# Hypotheses
+with tf.name_scope("layer2") as scope:
+    L2 = tf.sigmoid(tf.matmul(X, W1) + b1)
+
 W2 = tf.Variable(tf.random_uniform([5, 4], -1.0, 1.0), name='weight2')
 w2_hist = tf.histogram_summary("weights2", W2)
 b2 = tf.Variable(tf.zeros([4]), name="bias2")
 b2_hist = tf.histogram_summary("biases2", b2)
 
+with tf.name_scope("layer3") as scope:
+    L3 = tf.sigmoid(tf.matmul(L2, W2) + b2)
+
 W3 = tf.Variable(tf.random_uniform([4, 1], -1.0, 1.0), name='weight3')
 w3_hist = tf.histogram_summary("weights3", W3)
 b3 = tf.Variable(tf.zeros([1]), name="bias3")
 b3_hist = tf.histogram_summary("biases3", b3)
-
-# Hypotheses
-with tf.name_scope("layer2") as scope:
-    L2 = tf.sigmoid(tf.matmul(X, W1) + b1)
-
-with tf.name_scope("layer3") as scope:
-    L3 = tf.sigmoid(tf.matmul(L2, W2) + b2)
 
 with tf.name_scope("layer4") as scope:
     hypothesis = tf.sigmoid(tf.matmul(L3, W3) + b3)
