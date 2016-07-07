@@ -11,9 +11,6 @@ def main():
     x_data = np.transpose(xy[0:-1])
     y_data = np.reshape(xy[-1], (4, 1))
 
-    b_weights_histogram = False
-    b_biases_histogram = False
-
     X = tf.placeholder(tf.float32, name='X-input')
     Y = tf.placeholder(tf.float32, name='Y-input')
     y_hist = tf.histogram_summary("y", Y)
@@ -25,7 +22,7 @@ def main():
 
     n_nodes_list = [x_data.shape[1]] + [10, 9, 8, 7, 6, 5, 4, 3, 2] + [1]
 
-    hypothesis = design_network(n_nodes_list, x_data, X, b_biases_histogram, b_weights_histogram)
+    hypothesis = design_network(n_nodes_list, x_data, X, )
 
     cost = design_cost_function(Y, hypothesis)
 
@@ -38,7 +35,7 @@ def main():
     run_tensorboard(log_dir)
 
 
-def design_network(widths_list, x_data, input_placeholder, b_biases_histogram, b_weights_histogram):
+def design_network(widths_list, x_data, input_placeholder, b_biases_histogram=False, b_weights_histogram=False):
     weights_list = []
     biases_list = []
     weights_histograms_list = []
