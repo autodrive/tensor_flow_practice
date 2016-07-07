@@ -11,11 +11,11 @@ xy = np.loadtxt('xor_dataset.txt', unpack=True)
 x_data = np.transpose(xy[0:-1])
 y_data = np.reshape(xy[-1], (4, 1))
 
+n_nodes_list = [x_data.shape[1], 5, 4, 1]
+
 X = tf.placeholder(tf.float32, name='X-input')
 Y = tf.placeholder(tf.float32, name='Y-input')
 y_hist = tf.histogram_summary("y", Y)
-
-n_nodes_list = [x_data.shape]
 
 # Deep network configuration.: Use more layers.
 W1 = tf.Variable(tf.random_uniform([2, 5], -1.0, 1.0), name='weight1')
