@@ -20,7 +20,7 @@ def main():
     # number of hidden layers = 9
     # output layer width = 1
 
-    n_nodes_list = [x_data.shape[1]] + [10, 2, 9, 3, 8, 4, 7, 5, 6] + [1]
+    n_nodes_list = [x_data.shape[1]] + [5] * 9 + [1]
 
     hypothesis = design_network(n_nodes_list, x_data, X, )
 
@@ -65,7 +65,7 @@ def design_network(widths_list, x_data, input_placeholder, b_biases_histogram=Fa
             b_hist = tf.histogram_summary("biases%d" % (k + 1), bias)
             biases_histograms_list.append(b_hist)
 
-    hypothesis = design_output_layer(layers_list)
+    hypothesis = design_output_layer(layer)
 
     return hypothesis
 
@@ -76,14 +76,14 @@ def design_one_layer(k, width, last_layer, last_width):
                          name='weight%d' % (k + 1))
     bias = tf.Variable(tf.zeros([width]), name="bias%d" % (k + 1))
     with tf.name_scope("layer%d" % (k + 1)) as scope:
-        layer = tf.sigmoid(tf.matmul(last_layer, weight) + bias)
+        layer = tf.nn.relu(tf.matmul(last_layer, weight) + bias)
     return bias, layer, weight
 
 
-def design_output_layer(layers_list):
+def design_output_layer(last_layer):
     # output layer
-    with tf.name_scope("output_layer") as scope:
-        hypothesis = layers_list[-1]
+    with tf.name_scope("last") as scope:
+        hypothesis = tf.sigmoid(last_layer)
     return hypothesis
 
 
