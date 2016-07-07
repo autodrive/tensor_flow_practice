@@ -79,12 +79,7 @@ def main():
 
     run_graph(X, Y, hypothesis, train, x_data, y_data)
 
-    import sys
-
-    if 2 <= len(sys.argv):
-        tensorboard = sys.argv[1]
-        os.system("%s --logdir=%s" % (tensorboard, log_dir))
-        # http://0.0.0.0:6006
+    run_tensorboard(log_dir)
 
 
 def run_graph(X, Y, hypothesis, train, x_data, y_data):
@@ -113,6 +108,14 @@ def run_graph(X, Y, hypothesis, train, x_data, y_data):
         print(sess.run([hypothesis, tf.floor(hypothesis + 0.5), correct_prediction, accuracy],
                        feed_dict={X: x_data, Y: y_data}))
         print("Accuracy:", accuracy.eval({X: x_data, Y: y_data}))
+
+
+def run_tensorboard(log_dir):
+    import sys
+    if 2 <= len(sys.argv):
+        tensorboard = sys.argv[1]
+        os.system("%s --logdir=%s" % (tensorboard, log_dir))
+        # http://0.0.0.0:6006
 
 
 if __name__ == '__main__':
