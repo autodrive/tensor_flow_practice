@@ -69,17 +69,22 @@ def main():
         cost = -tf.reduce_mean(Y * tf.log(hypothesis) + (1 - Y) * tf.log(1. - hypothesis))
         cost_summ = tf.scalar_summary("cost", cost)
 
-    # Minimize cost.
-    a = tf.Variable(0.1)
-    with tf.name_scope("train") as scope:
-        optimizer = tf.train.GradientDescentOptimizer(a)
-        train = optimizer.minimize(cost)
+    train = design_optimizer(cost)
 
     log_dir = os.path.join(os.curdir, 'logs', 'xor_logs')
 
     run_graph(X, Y, hypothesis, train, x_data, y_data)
 
     run_tensorboard(log_dir)
+
+
+def design_optimizer(cost):
+    # Minimize cost.
+    a = tf.Variable(0.1)
+    with tf.name_scope("train") as scope:
+        optimizer = tf.train.GradientDescentOptimizer(a)
+        train = optimizer.minimize(cost)
+    return train
 
 
 def run_graph(X, Y, hypothesis, train, x_data, y_data):
