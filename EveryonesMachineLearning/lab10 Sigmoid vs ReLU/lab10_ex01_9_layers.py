@@ -14,21 +14,25 @@ y_data = np.reshape(xy[-1], (4, 1))
 # number of hidden layers = 9
 # output layer width = 1
 
+b_weights_histogram = False
+b_biases_histogram = False
+
 n_nodes_list = [x_data.shape[1]] + [5] * 9 + [1]
 weights_list = []
-weights_histograms_list = []
 biases_list = []
-biases_histograms_list = []
 layers_list = []
+
+weights_histograms_list = []
+biases_histograms_list = []
 
 X = tf.placeholder(tf.float32, name='X-input')
 Y = tf.placeholder(tf.float32, name='Y-input')
 y_hist = tf.histogram_summary("y", Y)
 
 # Input Layer
-with tf.name_scope("layer1") as scope:
+with tf.name_scope("input_layer") as scope:
     L = X
-layers_list.append(L)
+    layers_list.append(L)
 
 # layers loop
 for k, width in enumerate(n_nodes_list[:-1]):
@@ -36,23 +40,26 @@ for k, width in enumerate(n_nodes_list[:-1]):
     W = tf.Variable(tf.random_uniform([n_nodes_list[k], n_nodes_list[k + 1]],
                                       -1.0, 1.0),
                     name='weight%d' % (k + 1))
-    # Add histogram
-    w_hist = tf.histogram_summary("weights%d" % (k + 1), W)
     b = tf.Variable(tf.zeros([n_nodes_list[k + 1]]), name="bias%d" % (k + 1))
-    b_hist = tf.histogram_summary("biases%d" % (k + 1), b)
 
-    # Hypotheses
-    with tf.name_scope("layer%d" % (k + 2)) as scope:
+    with tf.name_scope("layer%d" % (k + 1)) as scope:
         L = tf.sigmoid(tf.matmul(layers_list[-1], W) + b)
 
     weights_list.append(W)
-    weights_histograms_list.append(w_hist)
     biases_list.append(b)
-    biases_histograms_list.append(b_hist)
+
+    # Add histogram
+
+    if b_weights_histogram:
+        w_hist = tf.histogram_summary("weights%d" % (k + 1), W)
+        weights_histograms_list.append(w_hist)
+    if b_biases_histogram:
+        b_hist = tf.histogram_summary("biases%d" % (k + 1), b)
+        biases_histograms_list.append(b_hist)
     layers_list.append(L)
 
 # output layer
-with tf.name_scope("output") as scope:
+with tf.name_scope("output_layer") as scope:
     hypothesis = layers_list[-1]
 
 # Cost function
