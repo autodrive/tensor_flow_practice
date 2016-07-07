@@ -38,13 +38,13 @@ def main():
     run_tensorboard(log_dir)
 
 
-def design_network(widths_list, x_data, X, b_biases_histogram, b_weights_histogram):
+def design_network(widths_list, x_data, input_placeholder, b_biases_histogram, b_weights_histogram):
     weights_list = []
     biases_list = []
     weights_histograms_list = []
     biases_histograms_list = []
 
-    layer, layers_list = design_input_layer(X)
+    layer, layers_list = design_input_layer(input_placeholder)
 
     last_layer = layer
     last_width = x_data.shape[1]
