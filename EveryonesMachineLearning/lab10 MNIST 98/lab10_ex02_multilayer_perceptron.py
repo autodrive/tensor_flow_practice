@@ -5,6 +5,8 @@ This example is using the MNIST database of handwritten digits
 
 Author: Aymeric Damien
 Project: https://github.com/aymericdamien/TensorFlow-Examples/
+
+Xavier initialization https://www.youtube.com/watch?v=ls8jHqRnEQk#t=6m12s
 '''
 
 # Import MINST data
@@ -13,6 +15,16 @@ from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
 import tensorflow as tf
+
+
+def xavier_init(n_inputs, n_outputs, uniform=True):
+    if uniform:
+        init_range = tf.sqrt(6.0 / (n_inputs + n_outputs))
+        return tf.random_uniform_initializer(-init_range, init_range)
+    else:
+        stddev = tf.sqrt(3.0 / (n_inputs + n_outputs))
+        return tf.truncated_normal_initalizer(stddev=stddev)
+
 
 # Parameters
 learning_rate = 0.001
@@ -45,10 +57,11 @@ def multilayer_perceptron(x, weights, biases):
 
 
 # Store layers weight & bias
+# http://stackoverflow.com/questions/33640581/how-to-do-xavier-initialization-on-tensorflow
 weights = {
-    'h1': tf.Variable(tf.random_normal([n_input, n_hidden_1])),
-    'h2': tf.Variable(tf.random_normal([n_hidden_1, n_hidden_2])),
-    'out': tf.Variable(tf.random_normal([n_hidden_2, n_classes]))
+    'h1': tf.get_variable("W1", shape=[n_input, n_hidden_1], initializer=xavier_init(n_input, n_hidden_1)),
+    'h2': tf.get_variable("W2", shape=[n_hidden_1, n_hidden_2], initializer=xavier_init(n_hidden_1, n_hidden_2)),
+    'out': tf.get_variable("W3", shape=[n_hidden_2, n_classes], initializer=xavier_init(n_hidden_2, n_classes)),
 }
 biases = {
     'b1': tf.Variable(tf.random_normal([n_hidden_1])),
