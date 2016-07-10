@@ -24,6 +24,8 @@ def model(X, w, w2, w3, w4, w_o, p_keep_conv, p_keep_hidden):
 
     l1a = tf.nn.relu(tf.nn.conv2d(X, w,  # l1a shape=(?, 28, 28, 32)
                                   strides=[1, 1, 1, 1], padding='SAME'))
+    # https://www.youtube.com/watch?v=6KlkiKyjEu0#t=5m1s
+    # 1 2 2 1 : 1/2 original size
     l1 = tf.nn.max_pool(l1a, ksize=[1, 2, 2, 1],  # l1 shape=(?, 14, 14, 32)
                         strides=[1, 2, 2, 1], padding='SAME')
     l1 = tf.nn.dropout(l1, p_keep_conv)
