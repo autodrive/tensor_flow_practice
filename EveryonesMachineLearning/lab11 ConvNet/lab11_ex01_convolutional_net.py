@@ -15,7 +15,13 @@ def init_weights(shape):
     return tf.Variable(tf.random_normal(shape, stddev=0.01))
 
 
+
 def model(X, w, w2, w3, w4, w_o, p_keep_conv, p_keep_hidden):
+    # https://www.youtube.com/watch?v=6KlkiKyjEu0#t=2m1s
+    # tf.nn.conf2d() strides
+    # [1 (usually fixed), stride horizontal, stride vertical, 1 (usually fixed)]
+    # padding='SAME' : if stride == 1, same size as image
+
     l1a = tf.nn.relu(tf.nn.conv2d(X, w,  # l1a shape=(?, 28, 28, 32)
                                   strides=[1, 1, 1, 1], padding='SAME'))
     l1 = tf.nn.max_pool(l1a, ksize=[1, 2, 2, 1],  # l1 shape=(?, 14, 14, 32)
