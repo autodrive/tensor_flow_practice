@@ -5,6 +5,16 @@ import numpy as np
 import tensorflow as tf
 
 
+# Xavier initialization https://www.youtube.com/watch?v=ls8jHqRnEQk#t=6m12s
+def xavier_init(n_inputs, n_outputs, uniform=True):
+    if uniform:
+        init_range = tf.sqrt(6.0 / (n_inputs + n_outputs))
+        return tf.random_uniform_initializer(-init_range, init_range)
+    else:
+        stddev = tf.sqrt(3.0 / (n_inputs + n_outputs))
+        return tf.truncated_normal_initalizer(stddev=stddev)
+
+
 def main():
     xy = np.loadtxt('xor_dataset.txt', unpack=True)
 
@@ -71,9 +81,10 @@ def design_network(widths_list, x_data, input_placeholder, b_biases_histogram=Fa
 
 
 def design_one_layer(k, width, last_layer, last_width):
-    weight = tf.Variable(tf.random_uniform([last_width, width],
-                                           -1.0, 1.0),
-                         name='weight%d' % (k + 1))
+    # http://stackoverflow.com/questions/33640581/how-to-do-xavier-initialization-on-tensorflow
+    weight = tf.get_variable('weight%d' % (k + 1),
+                             shape=[last_width, width],
+                             initializer=xavier_init(last_width, width))
     bias = tf.Variable(tf.zeros([width]), name="bias%d" % (k + 1))
     with tf.name_scope("layer%d" % (k + 1)) as scope:
         layer = tf.nn.relu(tf.matmul(last_layer, weight) + bias)
