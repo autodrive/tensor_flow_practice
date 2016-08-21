@@ -70,3 +70,6 @@ data/
 
 # tensorboard testing
 EveryonesMachineLearning/lab09-2\ TensorBoard/logs/xor_logs/
+
+# tfevents log
+*.tfevents.*
