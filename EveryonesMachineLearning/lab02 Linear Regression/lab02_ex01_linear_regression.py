@@ -16,6 +16,7 @@ hypothesis = W * x_data + b  # H(x) = Wx + b
 
 print("hypothesis = %s" % hypothesis)
 
+# cost = sum( {(W * xi + b) - yi} ** 2 ) / n
 cost = tf.reduce_mean(tf.square(hypothesis - y_data))  # cost(W, b)
 
 print("cost = %s" % cost)
