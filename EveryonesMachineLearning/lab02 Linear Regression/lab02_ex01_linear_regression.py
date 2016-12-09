@@ -13,6 +13,8 @@ b = tf.Variable(tf.random_uniform([1], -1.0, 1.0))
 
 hypothesis = W * x_data + b  # H(x) = Wx + b
 
+print("hypothesis = %s" % hypothesis)
+
 cost = tf.reduce_mean(tf.square(hypothesis - y_data))  # cost(W, b)
 
 # magic? black box?
