@@ -20,6 +20,7 @@ cost = tf.reduce_mean(tf.square(hypothesis - y_data))  # cost(W, b)
 
 print("cost = %s" % cost)
 
+# a: learning rate
 # magic? black box?
 a = tf.Variable(0.1)
 optimizer = tf.train.GradientDescentOptimizer(a)
