@@ -20,10 +20,17 @@ print("hypothesis = %s" % hypothesis)
 
 cost = tf.reduce_mean(tf.square(hypothesis - Y))  # cost(W, b)
 
+print("cost = %s" % cost)
+
+# a: learning rate
 # magic? black box?
 a = tf.Variable(0.1)
 optimizer = tf.train.GradientDescentOptimizer(a)
 train = optimizer.minimize(cost)
+
+print("begin train ".ljust(40, '='))
+print(train)
+print("end train ".ljust(40, '='))
 
 init = tf.initialize_all_variables()
 
