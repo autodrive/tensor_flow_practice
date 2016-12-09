@@ -16,6 +16,8 @@ Y = tf.placeholder(tf.float32)
 
 hypothesis = W * X + b  # H(x) = Wx + b
 
+print("hypothesis = %s" % hypothesis)
+
 cost = tf.reduce_mean(tf.square(hypothesis - Y))  # cost(W, b)
 
 # magic? black box?
@@ -31,7 +33,7 @@ sess.run(init)
 for step in range(2001):
     sess.run(train, feed_dict={X: x_data, Y: y_data})
     # intermediate report
-    if 0 == step % 20:
+    if 0 == step % 200:
         print step, sess.run(cost, feed_dict={X: x_data, Y: y_data}), sess.run(W), sess.run(b)
 # end of training
 
