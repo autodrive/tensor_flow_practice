@@ -28,7 +28,8 @@ sess.run(init)
 # Fit the line
 for step in range(1000):
     sess.run(update, feed_dict={X: x_data, Y: y_data})
-    print step, sess.run(cost, feed_dict={X: x_data, Y: y_data}), sess.run(W)
+    if 0 == (step % 200):
+        print step, sess.run(cost, feed_dict={X: x_data, Y: y_data}), sess.run(W)
 # end of training
 
 # running
