@@ -27,6 +27,10 @@ a = tf.Variable(0.1)
 optimizer = tf.train.GradientDescentOptimizer(a)
 train = optimizer.minimize(cost)
 
+print("begin train ".ljust(40, '='))
+print(train)
+print("end train ".ljust(40, '='))
+
 init = tf.initialize_all_variables()
 
 sess = tf.Session()
