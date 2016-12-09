@@ -44,6 +44,6 @@ for step in range(2001):
         print step, sess.run(cost, feed_dict={X: x_data, Y: y_data}), sess.run(W), sess.run(b)
 # end of training
 
-# running
+# apply trained network
 print sess.run(hypothesis, feed_dict={X: 5})
 print sess.run(hypothesis, feed_dict={X: 2.55})
